@@ -51,7 +51,7 @@ def Check_Log_File(url):
     
         
 #This actually does the scanning.
-def ScanSubreddit(reddit, file):
+def ScanSubreddit(reddit):
     
     
     subreddit = reddit.get_subreddit('forhire')
@@ -133,7 +133,7 @@ def Main():
     
     message_string = ""
     #Actually scan the /r/forhire subreddit
-    posts = ScanSubreddit(reddit, file)
+    posts = ScanSubreddit(reddit)
     result = str(len(posts))
     Log_Activity(result)
     runtime = datetime.datetime.now()
@@ -148,7 +148,8 @@ def Main():
         next_hour = str((runtime.hour-12)+1)
         date_string_2 = month + "-" + day + "-" + year + ": " + next_hour + ":" + minute
         print "No new results: Sleeping. Will run again at " + date_string_2
-        exit()
+        time.sleep(3600)
+        Main()
     #For each found post, it sends you a private message via reddit.
     for item in posts:
         #This formats the private message. It's an array, so, each relevant posting is put here.
